@@ -1,4 +1,4 @@
-function List1Exercise9()
+function List1Exercise9() #main
   clc;
  #Initializing values
   xI   = 2.5;
@@ -66,15 +66,15 @@ function plotaGrafico(dadosX, dadosY)
   x = 2.5:0.1:5.5;
   for cont = 1: qtdeFramesG
    clf;
-   p1 = plot(x, f(x));
+   p1 = plot(x, f(x), 'linewidth', 2, 'color', [0 0 1]);
    hold on;
    p2 = plot(dadosX(cont), dadosY(cont), 'linewidth', 1, 'color', [0 0 0], 'marker',
    'o', 'markersize', 10, 'markerfacecolor', [1 1 1]);
    set(gca, 'fontsize', 12);
-   xlabel(sprintf('Xr = ( %.6f)', dadosX(cont)));
-   ylabel(sprintf('f(xr) = (%.6f)', dadosY(cont)));
+   xlabel(sprintf('Xr = %.6f', dadosX(cont)));
+   ylabel(sprintf('f(xr) = %.6f', dadosY(cont)));
    legend([p1, p2], {'f(x) avaliada', 'raiz calculada'});
-   title(sprintf('Grafico de convergencia. Iteracoes =  (%d)', cont));
+   title(sprintf('Grafico de convergencia. Iteracoes =  %d', cont));
    grid on;
    pause(0.5);
   endfor
