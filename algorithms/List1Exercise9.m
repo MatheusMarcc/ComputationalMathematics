@@ -1,29 +1,32 @@
 function List1Exercise9()
   clc;
-  # inicializando os valores
+ #Initializing values
   xI   = 2.5;
   xU   = 5.5;
   cont = 0;
   max  = 1000;
   tol = 1e-5;
-  # Function that calculates the roots
   [dadosX, dadosY, xR, fxR, i] = metodoDaFalsaPosicao(xI, xU, max, tol);
-  printf("Valor da raiz: %.6f", xR);
-  printf("\nValor de Y na raiz: %.6f", fxR);
-  printf("\nQuantidade de iteracoes necessarias: %d\n", i);
+  printf('Colunas do grafico:');
+  printf('\nEixoX: %.6f EixoY: %.6f', dadosX, dadosY);
+  printf('Valor da raiz: %.6f', xR);
+  printf('\nValor de Y na raiz: %.6f', fxR);
+  printf('\nQuantidade de iteracoes necessarias: %d\n', i);
   plotaGrafico(dadosX, dadosY);
 endfunction
 
-# Calculate f(X)
+#Calculate f(X)
 function y = f(x)
   y = sin(x/2) .* (x - 9/2) .* (x + 29);
 endfunction
 
-# False position method
+#False position method
 function [dadosX, dadosY, xR, fxR, i] = metodoDaFalsaPosicao(xI, xU, max, tol)
   dadosX = zeros(1, max);
   dadosY = zeros(1, max);
   xrVelho = inf;
+  contU = 0;
+  contI = 0;
   for i = 1: max
    fxI = f(xI);
    fxU = f(xU);
@@ -31,14 +34,24 @@ function [dadosX, dadosY, xR, fxR, i] = metodoDaFalsaPosicao(xI, xU, max, tol)
    fxR = f(xR);
    dadosX(i) = xR;
    dadosY(i) = fxR;
-    if fxI * fxR < 0
+    if fxI * fxR > 0
        xI = xR;
+       contU = 0;
+       contI += 1;
+       if contI > 1
+         fxI = fxI / 2; #if xI stuck, force to reduce itself
+       endif
      else
        xU = xR;
+       contI = 0;
+       contU += 1;
+        if contU > 1
+         fxU = fxU / 2; #if xU stuck, force to reduce itself
+        endif
      endif
     if abs(xrVelho - xR) <= tol
       dadosX = dadosX(1:i);
-      dadosY = dadosY(1:i); #trunco os vetores
+      dadosY = dadosY(1:i); #remove empty spaces by truncating the vector
       break;
     endif
     xrVelho = xR;
@@ -57,13 +70,12 @@ function plotaGrafico(dadosX, dadosY)
    hold on;
    p2 = plot(dadosX(cont), dadosY(cont), 'linewidth', 1, 'color', [0 0 0], 'marker',
    'o', 'markersize', 10, 'markerfacecolor', [1 1 1]);
-   #hold off;
-   set(gca, 'fontsize', 20);
-   xlabel('xR');
-   ylabel('fxR');
+   set(gca, 'fontsize', 12);
+   xlabel(sprintf('Xr = ( %.6f)', dadosX(cont)));
+   ylabel(sprintf('f(xr) = (%.6f)', dadosY(cont)));
    legend([p1, p2], {'f(x) avaliada', 'raiz calculada'});
-   title(sprintf('Iteracao %d. Valor da raiz: %.6f', cont, dadosY(cont)));
+   title(sprintf('Grafico de convergencia. Iteracoes =  (%d)', cont));
    grid on;
-   pause(0.001);
+   pause(0.5);
   endfor
 endfunction
