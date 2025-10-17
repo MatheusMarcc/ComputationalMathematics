@@ -6,11 +6,12 @@ function List1Exercise9() #main
   cont = 0;
   max  = 1000;
   tol = 1e-5;
-  [dadosX, dadosY, xR, fxR, i] = metodoDaFalsaPosicao(xI, xU, max, tol);
+  [dadosX, dadosY, i] = metodoDaFalsaPosicao(xI, xU, max, tol);
   printf('Colunas do grafico:');
-  printf('\nEixoX: %.6f EixoY: %.6f', dadosX, dadosY);
-  printf('Valor da raiz: %.6f', xR);
-  printf('\nValor de Y na raiz: %.6f', fxR);
+  for i = 1:length(dadosX)
+   printf('\nX = %.6f', dadosX(i));
+   printf('  Y = %.6f', dadosY(i));
+  endfor
   printf('\nQuantidade de iteracoes necessarias: %d\n', i);
   plotaGrafico(dadosX, dadosY);
 endfunction
@@ -21,7 +22,7 @@ function y = f(x)
 endfunction
 
 #False position method
-function [dadosX, dadosY, xR, fxR, i] = metodoDaFalsaPosicao(xI, xU, max, tol)
+function [dadosX, dadosY, i] = metodoDaFalsaPosicao(xI, xU, max, tol)
   dadosX = zeros(1, max);
   dadosY = zeros(1, max);
   xrVelho = inf;
