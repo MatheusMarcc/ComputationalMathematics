@@ -6,14 +6,14 @@ function List1Exercise9() #main
   cont = 0;
   max  = 1000;
   tol = 1e-5;
-  [dadosX, dadosY] = metodoDaFalsaPosicao(xI, xU, max, tol);
+  [dadosX, dadosY, dadosConv] = metodoDaFalsaPosicao(xI, xU, max, tol);
   printf('Colunas do grafico:');
   for i = 1:length(dadosX)
    printf('\nX = %.6f', dadosX(i));
    printf('  Y = %.6f', dadosY(i));
   endfor
   printf('\nQuantidade de iteracoes necessarias: %d\n', i);
-  plotaGrafico(dadosX, dadosY);
+  plotaGrafico(dadosX, dadosY, dadosConv, tol);
 endfunction
 
 #Calculate f(X)
@@ -22,22 +22,26 @@ function y = f(x)
 endfunction
 
 #False position method
-function [dadosX, dadosY] = metodoDaFalsaPosicao(xI, xU, max, tol)
-  dadosX = zeros(1, max);
-  dadosY = zeros(1, max);
-  xrVelho = inf;
-  contU = 0;
-  contI = 0;
+function [dadosX, dadosY, dadosConv] = metodoDaFalsaPosicao(xI, xU, max, tol)
+  dadosX    = zeros(1, max);
+  dadosY    = zeros(1, max);
+  dadosConv = zeros(1, max);
+  xrVelho   = inf;
+  contU     = 0;
+  contI     = 0;
+
   for i = 1: max
-   fxI = f(xI);
-   fxU = f(xU);
-   xR = xU - (fxU * (xI - xU)) / (fxI - fxU);
-   fxR = f(xR);
+   fxI  = f(xI);
+   fxU  = f(xU);
+   xR   = xU - (fxU * (xI - xU)) / (fxI - fxU);
+   fxR  = f(xR);
+   eA   = abs(xR - xrVelho);
    dadosX(i) = xR;
    dadosY(i) = fxR;
+   dadosConv(i) = eA;
     if fxI * fxR > 0
        xI = xR;
-       contU = 0;
+       contU  = 0;
        contI += 1;
        if contI > 1
          fxI = fxI / 2; #if xI stuck, force to reduce itself
@@ -50,9 +54,10 @@ function [dadosX, dadosY] = metodoDaFalsaPosicao(xI, xU, max, tol)
          fxU = fxU / 2; #if xU stuck, force to reduce itself
         endif
      endif
-    if abs(xrVelho - xR) <= tol
+    if eA <= tol
       dadosX = dadosX(1:i);
-      dadosY = dadosY(1:i); #remove empty spaces by truncating the vector
+      dadosY = dadosY(1:i);
+      dadosConv = dadosConv(1:i); #remove empty spaces by truncating the vector
       break;
     endif
     xrVelho = xR;
@@ -61,7 +66,7 @@ function [dadosX, dadosY] = metodoDaFalsaPosicao(xI, xU, max, tol)
 endfunction
 
 # Show the graph of f(x) and tangent lines of the false position method
-function plotaGrafico(dadosX, dadosY)
+function plotaGrafico(dadosX, dadosY, dadosConv, tol)
   figure(1);
   qtdeFramesG = length(dadosX);
   x = 2.5:0.1:5.5;
@@ -70,13 +75,26 @@ function plotaGrafico(dadosX, dadosY)
    p1 = plot(x, f(x), 'linewidth', 2, 'color', [0 0 1]);
    hold on;
    p2 = plot(dadosX(cont), dadosY(cont), 'linewidth', 1, 'color', [0 0 0], 'marker',
-   'o', 'markersize', 10, 'markerfacecolor', [1 1 1]);
+   'o', 'markersize', 5, 'markerfacecolor', [1 1 1]);
    set(gca, 'fontsize', 12);
    xlabel(sprintf('Xr = %.6f', dadosX(cont)));
    ylabel(sprintf('f(xr) = %.6f', dadosY(cont)));
    legend([p1, p2], {'f(x) avaliada', 'raiz calculada'});
-   title(sprintf('Grafico de convergencia. Iteracoes =  %d', cont));
+   title(sprintf('Grafico de f(x)'));
    grid on;
    pause(0.5);
   endfor
+  #plot convergence graph
+  figure(2);
+  clf;
+  i = 1:length(dadosConv);
+  e = plot(i, dadosConv, 'r-o', 'linewidth', 2, 'markersize', 5);
+  hold on;
+  plot(1, tol, 'g--', 'linewidth', 1);
+  title('Grafico de Convergencia');
+  xlabel(sprintf('Iteracoes: %d', i(end)));
+  ylabel('Erro absoluto'), ;
+  legend(e, {'Erro absoluto'});
+  grid on;
+
 endfunction
