@@ -6,7 +6,7 @@ function List1Exercise9() #main
   cont = 0;
   max  = 1000;
   tol = 1e-5;
-  [dadosX, dadosY, i] = metodoDaFalsaPosicao(xI, xU, max, tol);
+  [dadosX, dadosY] = metodoDaFalsaPosicao(xI, xU, max, tol);
   printf('Colunas do grafico:');
   for i = 1:length(dadosX)
    printf('\nX = %.6f', dadosX(i));
@@ -22,7 +22,7 @@ function y = f(x)
 endfunction
 
 #False position method
-function [dadosX, dadosY, i] = metodoDaFalsaPosicao(xI, xU, max, tol)
+function [dadosX, dadosY] = metodoDaFalsaPosicao(xI, xU, max, tol)
   dadosX = zeros(1, max);
   dadosY = zeros(1, max);
   xrVelho = inf;
