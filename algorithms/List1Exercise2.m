@@ -3,7 +3,7 @@ function List1Exercise2() # main
   xU = 1.0;
   max = 1000;
   tol = 1e-5;
-  [dadosX, dadosY, dadosConv] = falsePositionMethod(xI, xU, max, tol);
+  [dadosX, dadosY] = falsePositionMethod(xI, xU, max, tol);
   printf('X: %.6f:\n', dadosX(end));
   printf('Y: %.6f:\n', dadosY(end));
 end
@@ -53,5 +53,9 @@ function [dadosX, dadosY] = falsePositionMethod(xI, xU, max, tol)
   endfor
 end
 
-
+function plotaGrafico(dadosX, dadosY, xI, xU, tol)
+  x = xI : 0.1 : xU;
+  for i = 1 : length(dadosX
+  endfor
+end
 

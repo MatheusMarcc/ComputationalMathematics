@@ -12,7 +12,7 @@ function List1Exercise9() #main
    printf('  Y = %.6f', dadosY(i));
   endfor
   printf('\nQuantidade de iteracoes necessarias: %d\n', i);
-  plotaGrafico(dadosX, dadosY,xI, xU, tol);
+  plotaGrafico(dadosX, dadosY,xI, xU);
 endfunction
 
 #Calculate f(X)
@@ -62,7 +62,7 @@ function [dadosX, dadosY] = metodoDaFalsaPosicao(xI, xU, max, tol)
 endfunction
 
 # Show the graph of f(x) and tangent lines of the false position method
-function plotaGrafico(dadosX, dadosY, xI, xU, tol)
+function plotaGrafico(dadosX, dadosY, xI, xU)
   figure(1);
   qtdeFramesG = length(dadosX);
   x = xI:0.1:xU;
@@ -97,5 +97,6 @@ function plotaGrafico(dadosX, dadosY, xI, xU, tol)
   title('Grafico de convergencia de f(xr)');
   xlabel('iteracoes');
   ylabel('valor de f(x) em xr');
+  legend(fx, {'valor de f(xr) ao longo do tempo'});
   grid on;
 endfunction
