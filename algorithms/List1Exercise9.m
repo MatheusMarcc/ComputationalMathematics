@@ -81,15 +81,13 @@ function plotaGrafico(dadosX, dadosY, dadosConv, xI, xU, tol)
    legend([p1, p2], {'f(x) avaliada', 'raiz calculada'});
    title(sprintf('Grafico de f(x)'));
    grid on;
-   pause(0.5);
+   pause(0.1);
   endfor
   #plot convergence graph
   figure(2);
   clf;
   i = 1:length(dadosConv);
-  e = plot(i, dadosConv, 'r-o', 'linewidth', 2, 'markersize', 5);
-  hold on;
-  plot(1, tol, 'g--', 'linewidth', 1);
+  e = plot(i, dadosConv, 'r-o', 'linewidth', 2, 'markersize', 2);
   title('Grafico de Convergencia');
   xlabel(sprintf('Iteracoes: %d', i(end)));
   ylabel('f(x)'), ;
