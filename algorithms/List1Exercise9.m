@@ -5,14 +5,14 @@ function List1Exercise9() #main
   xU   = 5.5;
   max  = 1000;
   tol = 1e-5;
-  [dadosX, dadosY, dadosConv] = metodoDaFalsaPosicao(xI, xU, max, tol);
+  [dadosX, dadosY] = metodoDaFalsaPosicao(xI, xU, max, tol);
   printf('Colunas do grafico:');
   for i = 1:length(dadosX)
    printf('\nX = %.6f', dadosX(i));
    printf('  Y = %.6f', dadosY(i));
   endfor
   printf('\nQuantidade de iteracoes necessarias: %d\n', i);
-  plotaGrafico(dadosX, dadosY, dadosConv,xI, xU, tol);
+  plotaGrafico(dadosX, dadosY,xI, xU, tol);
 endfunction
 
 #Calculate f(X)
@@ -21,10 +21,9 @@ function y = f(x)
 endfunction
 
 #False position method
-function [dadosX, dadosY, dadosConv] = metodoDaFalsaPosicao(xI, xU, max, tol)
+function [dadosX, dadosY] = metodoDaFalsaPosicao(xI, xU, max, tol)
   dadosX    = zeros(1, max);
   dadosY    = zeros(1, max);
-  dadosConv = zeros(1, max);
   xrVelho   = inf;
   contU     = 0;
   contI     = 0;
@@ -37,7 +36,6 @@ function [dadosX, dadosY, dadosConv] = metodoDaFalsaPosicao(xI, xU, max, tol)
    eA   = abs(xR - xrVelho);
    dadosX(i) = xR;
    dadosY(i) = fxR;
-   dadosConv(i) = eA;
     if fxI * fxR > 0
        xI = xR;
        contU  = 0;
@@ -55,8 +53,7 @@ function [dadosX, dadosY, dadosConv] = metodoDaFalsaPosicao(xI, xU, max, tol)
      endif
     if eA <= tol
       dadosX = dadosX(1:i);
-      dadosY = dadosY(1:i);
-      dadosConv = dadosConv(1:i); #remove empty spaces by truncating the vector
+      dadosY = dadosY(1:i); #remove empty spaces by truncating the vector
       break;
     endif
     xrVelho = xR;
@@ -65,7 +62,7 @@ function [dadosX, dadosY, dadosConv] = metodoDaFalsaPosicao(xI, xU, max, tol)
 endfunction
 
 # Show the graph of f(x) and tangent lines of the false position method
-function plotaGrafico(dadosX, dadosY, dadosConv, xI, xU, tol)
+function plotaGrafico(dadosX, dadosY, xI, xU, tol)
   figure(1);
   qtdeFramesG = length(dadosX);
   x = xI:0.1:xU;
@@ -81,7 +78,7 @@ function plotaGrafico(dadosX, dadosY, dadosConv, xI, xU, tol)
    legend([p1, p2], {'f(x) avaliada', 'raiz calculada'});
    title(sprintf('Grafico de f(x)'));
    grid on;
-   pause(0.1);
+   pause(0.9);
   endfor
   #plot convergence graph
   figure(2);
@@ -90,7 +87,7 @@ function plotaGrafico(dadosX, dadosY, dadosConv, xI, xU, tol)
   e = plot(i, dadosX, 'r-o', 'linewidth', 2, 'markersize', 2);
   title('Grafico de Convergencia da raiz calculada');
   xlabel(sprintf('Iteracoes: %d', i(end)));
-  ylabel('f(x)');
+  ylabel('xR');
   legend(e,{'Valor da raiz'});
   grid on;
 

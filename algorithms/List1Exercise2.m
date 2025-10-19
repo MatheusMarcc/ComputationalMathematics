@@ -12,10 +12,9 @@ function y = f(x)
    y = x .^3 + 2 .* x .^2 - 2;
 end
 
-function [dadosX, dadosY, dadosConv] = falsePositionMethod(xI, xU, max, tol)
+function [dadosX, dadosY] = falsePositionMethod(xI, xU, max, tol)
   dadosX    = zeros(1, max);
   dadosY    = zeros(1, max);
-  dadosConv = zeros(1, max);
   xrVelho = inf;
   contI = 0;
   contU = 0;
@@ -29,7 +28,6 @@ function [dadosX, dadosY, dadosConv] = falsePositionMethod(xI, xU, max, tol)
      xrVelho = xr;
      dadosX(i)    = xr;
      dadosY(i)    = fxR;
-     dadosConv(i) = eA;
 
      if fxR * fxI > 0
        xI = xr;
@@ -50,8 +48,10 @@ function [dadosX, dadosY, dadosConv] = falsePositionMethod(xI, xU, max, tol)
     if eA < tol
      dadosX     = dadosX(1:i);
      dadosY     = dadosY(1:i);
-     dadosConv  = dadosConv(1:i);
      break
     endif
   endfor
 end
+
+
+
