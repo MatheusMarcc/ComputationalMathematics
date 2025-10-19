@@ -86,12 +86,19 @@ function plotaGrafico(dadosX, dadosY, dadosConv, xI, xU, tol)
   #plot convergence graph
   figure(2);
   clf;
-  i = 1:length(dadosConv);
-  e = plot(i, dadosConv, 'r-o', 'linewidth', 2, 'markersize', 2);
-  title('Grafico de Convergencia');
+  i = 1:length(dadosX);
+  e = plot(i, dadosX, 'r-o', 'linewidth', 2, 'markersize', 2);
+  title('Grafico de Convergencia da raiz calculada');
   xlabel(sprintf('Iteracoes: %d', i(end)));
-  ylabel('f(x)'), ;
-  legend(e, {'Erro absoluto'});
+  ylabel('f(x)');
+  legend(e,{'Valor da raiz'});
   grid on;
 
+  figure(3);
+  clf
+  fx = plot(i, dadosY, '-o', 'color', [0.5 0 0.5], 'linewidth', 2, 'markersize', 2);
+  title('Grafico de convergencia de f(xr)');
+  xlabel('iteracoes');
+  ylabel('valor de f(x) em xr');
+  grid on;
 endfunction
