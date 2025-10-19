@@ -3,7 +3,6 @@ function List1Exercise9() #main
  #Initializing values
   xI   = 2.5;
   xU   = 5.5;
-  cont = 0;
   max  = 1000;
   tol = 1e-5;
   [dadosX, dadosY, dadosConv] = metodoDaFalsaPosicao(xI, xU, max, tol);
@@ -13,12 +12,12 @@ function List1Exercise9() #main
    printf('  Y = %.6f', dadosY(i));
   endfor
   printf('\nQuantidade de iteracoes necessarias: %d\n', i);
-  plotaGrafico(dadosX, dadosY, dadosConv, tol);
+  plotaGrafico(dadosX, dadosY, dadosConv,xI, xU, tol);
 endfunction
 
 #Calculate f(X)
 function y = f(x)
-  y = sin(x/2) .* (x - 9/2) .* (x + 29);
+    y = sin(x/2) .* (x - 9/2) .* (x + 29);
 endfunction
 
 #False position method
@@ -66,10 +65,10 @@ function [dadosX, dadosY, dadosConv] = metodoDaFalsaPosicao(xI, xU, max, tol)
 endfunction
 
 # Show the graph of f(x) and tangent lines of the false position method
-function plotaGrafico(dadosX, dadosY, dadosConv, tol)
+function plotaGrafico(dadosX, dadosY, dadosConv, xI, xU, tol)
   figure(1);
   qtdeFramesG = length(dadosX);
-  x = 2.5:0.1:5.5;
+  x = xI:0.1:xU;
   for cont = 1: qtdeFramesG
    clf;
    p1 = plot(x, f(x), 'linewidth', 2, 'color', [0 0 1]);
@@ -93,7 +92,7 @@ function plotaGrafico(dadosX, dadosY, dadosConv, tol)
   plot(1, tol, 'g--', 'linewidth', 1);
   title('Grafico de Convergencia');
   xlabel(sprintf('Iteracoes: %d', i(end)));
-  ylabel('Erro absoluto'), ;
+  ylabel('f(x)'), ;
   legend(e, {'Erro absoluto'});
   grid on;
 
