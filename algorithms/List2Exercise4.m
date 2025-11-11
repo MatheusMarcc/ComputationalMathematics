@@ -1,15 +1,16 @@
-function List2Exercise4
+function List2Exercise4 #professor, na lista o resultado é expresso com 4 casas após a vírgula, aqui, são 5 (para ter 6 casas totais), por conta disso não há arredondamento da última casa.
   x0 = [1, 1];
   x0 = x0';
   max = 1000;
   tol = 1e-5;
   [dadosX, dadosFx] = newthonRaphsonMethod(x0, max, tol);
 for i = 1:length(dadosX)
+ format;
   printf('Iteração %d:\n', i);
-  printf('  Raiz de X: %.6f  ', dadosX(i, 1));
-  printf('Raiz de Y: %.6f\n', dadosX(i, 2));
-  printf('  f(x, y): %.6f  ', dadosFx(i, 1));
-  printf('g(x, y): %.6f\n\n', dadosFx(i, 2));
+  printf('  Raiz de X: %.5f  ', dadosX(i, 1));
+  printf('Raiz de Y: %.5f\n', dadosX(i, 2));
+  printf('  f(x, y): %.5f  ', dadosFx(i, 1));
+  printf('g(x, y): %.5f\n\n', dadosFx(i, 2));
 endfor
 
   plotaGrafico(dadosX, dadosFx);
