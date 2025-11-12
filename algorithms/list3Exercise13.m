@@ -1,9 +1,9 @@
 function list3Exercise13()
- A = [ 2 0 1  ;
+A = [ 2 0 1  ;
        5 -1 1 ;
      - 1 2 2  ;];
 
- B = [2; 5; 0;];
+B = [2; 5; 0;];
 
  M = [A B]
  M = pivotamento(M)
