@@ -1,11 +1,14 @@
 function list3Exercise13()
- A = [ 2 0 1 2;
-       5 -1 1 5;
-     - 1 2 2 0;];
+ A = [ 2 0 1  ;
+       5 -1 1 ;
+     - 1 2 2  ;];
 
+ B = [2; 5; 0;];
 
- M = pivotamento(A)
+ M = [A B]
+ M = pivotamento(M)
  M = partialGaussJordan(M)
+
 end
 
 function pivotada = pivotamento(M)
@@ -45,5 +48,3 @@ function matrix = partialGaussJordan(M)
 
  matrix = M(:, tam + 1);
 end
-
-
