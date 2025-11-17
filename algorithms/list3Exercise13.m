@@ -36,6 +36,7 @@ function matrix = partialGaussJordan(M)
       factor = M(j, i);
       M(j, :) = M(j, :) - (factor * M(i, :));
    endfor
+
   endfor
 
    for i = tam : -1:1

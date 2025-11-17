@@ -1,11 +1,10 @@
 function List3GaussianElimination()
-  A = [3  -0.1 -0.2;
-       0.1  7  -0.3;
-       0.3 -0.2 10
-       ];
+ A = [ 2 0 1  ;
+       5 -1 1 ;
+     - 1 2 2  ;];
 
-  B = [7.85; -19.3; 71.4];
-  M = [A B]
+B = [2; 5; 0;];
+  M = [A B];
   M = pivotamento(M);
   M = gaussElimination(M)
 
@@ -33,21 +32,20 @@ function matrix = gaussElimination(M)
 
   for i = 1: tam
     factor = M(i, i);
-    for j = i+ 1: tam
+    for j = i + 1: tam
        factor = M(j, i) / M(i, i) ;
        M(j, :) = M(j, :) - factor * M(i, :);
     endfor
   endfor
 
- for i = tam:-1:1
-    M(i, tam+1) = M(i, tam+1) / M(i, i);
-    M(i, i) = 1;
-    for j = i-1:-1:1
-        M(j, tam+1) = M(j, tam+1) - M(j, i) * M(i, tam+1);
-        M(j, i) = 0;
-    endfor
-endfor
+  matrix = zeros(tam, 1);
 
- matrix = M;
+  matrix(tam) = M(tam, end) / M(tam, tam);
+
+ for i = tam -1: -1:1
+
+    matrix(i) = (M(i, end) -  M(i, i+1:tam) * matrix(i+1:tam)) / M(i, i);
+
+endfor
 
 end
