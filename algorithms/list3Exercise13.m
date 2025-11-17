@@ -5,9 +5,26 @@ A = [ 2 0 1  ;
 
 B = [2; 5; 0;];
 
- M = [A B]
- M = pivotamento(M)
- M = partialGaussJordan(M)
+
+ M = [A B];
+ %impressao personalizada do sistema em questao
+ printf('Sistema linear a ser solucionado: \n\n');
+ for i = 1: size(M, 1)
+    for j = 1 : size(M, 1) + 1
+      if j ~= (size(M, 1) + 1) && (j + 1) ~= size(M, 1) + 1 && M(i, j + 1) >= 0
+          printf('%.2fx%d +  ', M(i, j), j);
+      elseif j + 1 == (size(M, 1) + 1)
+          printf('%.2fx%d = %2.f', M(i, j), j, M(i, j + 1));
+     elseif j ~= (size(M, 1) + 1) && (j + 1) ~= size(M, 1) + 1 && M(i, j + 1) < 0
+        printf('%.2fx%d ', M(i, j), j);
+     end
+    endfor
+    printf('\n');
+ endfor
+ M = pivotamento(M);
+ printf('Solucao: \n\n');
+ M = partialGaussJordan(M);
+ M = M'
 
 end
 
