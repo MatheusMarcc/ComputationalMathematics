@@ -1,0 +1,5 @@
+SubjectsOfTopic2
+
+- Optimization: max and min with and without restriction 
+- Curve adjustment 
+- Numerical diferentiation and integration
